@@ -14,9 +14,9 @@ public class fileOutputStrategy implements OutputStrategy {
     public final ConcurrentHashMap<String, String> file_map = new ConcurrentHashMap<>();
 
     public fileOutputStrategy(String baseDirectory) {
-
         this.BaseDirectory = baseDirectory;
     }
+
 
     @Override
     public void output(int patientId, long timestamp, String label, String data) {
