@@ -14,7 +14,7 @@ public class DataStorage {
 
     private final Map<Integer, Patient> patientMap;
 
-    private DataStorage() {
+    public DataStorage() {
         this.patientMap = new HashMap<>();
     }
 

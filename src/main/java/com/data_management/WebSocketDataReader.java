@@ -22,7 +22,12 @@ public class WebSocketDataReader implements DataReader {
     @Override
     public void startStreaming(DataStorage dataStorage) throws IOException {
         try {
-            client = new WebSocketClient(new URI(serverUri)) {
+            URI uri = new URI(serverUri);
+            if (!"ws".equalsIgnoreCase(uri.getScheme()) && !"wss".equalsIgnoreCase(uri.getScheme())) {
+                throw new IOException("Bad WebSocket URI scheme: " + uri.getScheme());
+            }
+
+            client = new WebSocketClient(uri) {
 
                 @Override
                 public void onOpen(ServerHandshake handshake) {

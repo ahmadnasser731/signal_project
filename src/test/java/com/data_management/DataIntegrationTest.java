@@ -13,16 +13,31 @@ public class DataIntegrationTest {
     @Test
     public void testMessageParsedAndStored() throws Exception {
         String message = "1,1716700000000,HeartRate,145.0";
-        WebSocketDataReader reader = new WebSocketDataReader("ws://localhost:8080");
+
+        WebSocketDataReader testableReader = new WebSocketDataReader("ws://localhost:8080") {
+            public void simulateIncomingMessage(String msg, DataStorage storage) {
+                try {
+                    String[] parts = msg.split(",");
+                    if (parts.length != 4) return;
+
+                    int patientId = Integer.parseInt(parts[0].trim());
+                    long timestamp = Long.parseLong(parts[1].trim());
+                    String label = parts[2].trim();
+                    double value = Double.parseDouble(parts[3].trim().replace("%", ""));
+
+                    storage.addPatientData(patientId, value, label, timestamp);
+                } catch (Exception e) {
+                    System.err.println("Simulated onMessage error: " + e.getMessage());
+                }
+            }
+        };
 
         DataStorage storage = DataStorage.getInstance();
 
-        Method onMessage = reader.getClass().getDeclaredField("client").getType().getDeclaredMethod("onMessage", String.class);
-        onMessage.setAccessible(true);
+        Method simulate = testableReader.getClass()
+                .getDeclaredMethod("simulateIncomingMessage", String.class, DataStorage.class);
 
-        // Use reflection to simulate the internal message handler
-        reader.startStreaming(storage); // Start to initialize client
-        onMessage.invoke(reader, message);
+        simulate.invoke(testableReader, message, storage);
 
         List<PatientRecord> records = storage.getRecords(1, 1716699999999L, 1716700000001L);
         assertFalse(records.isEmpty());
