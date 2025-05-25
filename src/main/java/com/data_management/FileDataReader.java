@@ -7,14 +7,14 @@ import java.util.stream.Stream;
 
 public class FileDataReader implements DataReader {
 
-    private String directoryPath;
+    private final String directoryPath;
 
     public FileDataReader(String directoryPath) {
         this.directoryPath = directoryPath;
     }
 
     @Override
-    public void readData(DataStorage dataStorage) throws IOException {
+    public void startStreaming(DataStorage dataStorage) throws IOException {
         try (Stream<Path> paths = Files.walk(Paths.get(directoryPath))) {
             paths.filter(Files::isRegularFile).forEach(path -> {
                 try (BufferedReader reader = Files.newBufferedReader(path)) {
@@ -36,5 +36,9 @@ public class FileDataReader implements DataReader {
                 }
             });
         }
+    }
+
+    @Override
+    public void stopStreaming() {
     }
 }

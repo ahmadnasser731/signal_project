@@ -7,28 +7,17 @@ import java.util.Map;
 import com.alerts.AlertGenerator;
 
 /**
- * Manages storage and retrieval of patient data within a healthcare monitoring
- * system.
- * This class serves as a repository for all patient records, organized by
- * patient IDs.
+ * Stores all patient records. Keeps each patient's data in memory.
  */
 public class DataStorage {
     private static DataStorage instance;
 
-    private Map<Integer, Patient> patientMap;
+    private final Map<Integer, Patient> patientMap;
 
-    /**
-     * Private constructor to enforce Singleton pattern.
-     */
-    public DataStorage() {
+    private DataStorage() {
         this.patientMap = new HashMap<>();
     }
 
-    /**
-     * Provides access to the single instance of DataStorage.
-     *
-     * @return the singleton instance of DataStorage
-     */
     public static synchronized DataStorage getInstance() {
         if (instance == null) {
             instance = new DataStorage();
@@ -36,7 +25,8 @@ public class DataStorage {
         return instance;
     }
 
-    public void addPatientData(int patientId, double measurementValue, String recordType, long timestamp) {
+    // Save one piece of data to the right patient
+    public synchronized void addPatientData(int patientId, double measurementValue, String recordType, long timestamp) {
         Patient patient = patientMap.get(patientId);
         if (patient == null) {
             patient = new Patient(patientId);
@@ -45,7 +35,7 @@ public class DataStorage {
         patient.addRecord(measurementValue, recordType, timestamp);
     }
 
-    public List<PatientRecord> getRecords(int patientId, long startTime, long endTime) {
+    public synchronized List<PatientRecord> getRecords(int patientId, long startTime, long endTime) {
         Patient patient = patientMap.get(patientId);
         if (patient != null) {
             return patient.getRecords(startTime, endTime);
@@ -53,7 +43,7 @@ public class DataStorage {
         return new ArrayList<>();
     }
 
-    public List<Patient> getAllPatients() {
+    public synchronized List<Patient> getAllPatients() {
         return new ArrayList<>(patientMap.values());
     }
 
