@@ -1,4 +1,4 @@
-package com.data_readers;
+package com.data_components;
 
 public class WebSocketDataListener implements DataListener {
 

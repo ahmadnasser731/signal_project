@@ -6,8 +6,7 @@ import java.util.List;
 /**
  * Represents a patient and manages their medical records.
  * This class stores patient-specific data, allowing for the addition and
- * retrieval
- * of medical records based on specified criteria.
+ * retrieval of medical records based on specified criteria.
  */
 public class Patient {
     private int patientId;
@@ -30,8 +29,7 @@ public class Patient {
      * timestamp.
      *
      * @param measurementValue the measurement value to store in the record
-     * @param recordType       the type of record, e.g., "HeartRate",
-     *                         "BloodPressure"
+     * @param recordType       the type of record, e.g., "HeartRate", "BloodPressure"
      * @param timestamp        the time at which the measurement was taken, in
      *                         milliseconds since UNIX epoch
      */
@@ -45,8 +43,7 @@ public class Patient {
      * specified time range.
      * The method filters records based on the start and end times provided.
      *
-     * @param startTime the start of the time range, in milliseconds since UNIX
-     *                  epoch
+     * @param startTime the start of the time range, in milliseconds since UNIX epoch
      * @param endTime   the end of the time range, in milliseconds since UNIX epoch
      * @return a list of PatientRecord objects that fall within the specified time
      *         range
@@ -54,13 +51,29 @@ public class Patient {
     public List<PatientRecord> getRecords(long startTime, long endTime) {
         List<PatientRecord> filteredRecords = new ArrayList<>();
         for (PatientRecord record : patientRecords) {
-            if (record.getTimestamp() >= startTime && record.getTimestamp() <= endTime) {
+            long ts = record.getTimestamp();
+            if (ts >= startTime && ts <= endTime) {
                 filteredRecords.add(record);
             }
         }
         return filteredRecords;
     }
 
+    /**
+     * Returns the unique identifier for this patient.
+     *
+     * @return patient ID
+     */
+    public int getId() {
+        return patientId;
+    }
 
-
+    /**
+     * Returns all records for this patient, regardless of time.
+     *
+     * @return list of all patient records
+     */
+    public List<PatientRecord> getAllRecords() {
+        return new ArrayList<>(patientRecords);
+    }
 }
