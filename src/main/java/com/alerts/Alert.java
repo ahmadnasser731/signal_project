@@ -1,7 +1,6 @@
 package com.alerts;
 
-// Represents an alert
-public class Alert {
+public abstract class Alert implements IAlert {
     private String patientId;
     private String condition;
     private long timestamp;
@@ -12,15 +11,20 @@ public class Alert {
         this.timestamp = timestamp;
     }
 
+    @Override
     public String getPatientId() {
         return patientId;
     }
 
+    @Override
     public String getCondition() {
         return condition;
     }
 
+    @Override
     public long getTimestamp() {
         return timestamp;
     }
+
+    public abstract Alert createAlert(String patientId, String condition, long timestamp);
 }

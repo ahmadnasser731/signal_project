@@ -27,7 +27,17 @@ public class AlertManager {
                 .getOrDefault(vitalType, Double.MAX_VALUE);
 
         if (value > threshold || (vitalType.equalsIgnoreCase("saturation") && value < 92)) {
-            Alert alert = new Alert(patientId, vitalType + " out of range: " + value, timestamp);
+            Alert alert = new Alert(patientId, vitalType + " out of range: " + value, timestamp) {
+                @Override
+                public String getPriority() {
+                    return "";
+                }
+
+                @Override
+                public Alert createAlert(String patientId, String condition, long timestamp) {
+                    return null;
+                }
+            };
             printAlert(alert);
         }
     }
