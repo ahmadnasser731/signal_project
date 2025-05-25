@@ -1,4 +1,4 @@
-package alerts;
+package com.alerts;
 
 import com.alerts.*;
 import org.junit.jupiter.api.Test;

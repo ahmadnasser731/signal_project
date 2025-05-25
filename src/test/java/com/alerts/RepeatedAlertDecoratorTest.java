@@ -1,8 +1,5 @@
-package alerts;
+package com.alerts;
 
-import com.alerts.BloodOxygenAlert;
-import com.alerts.RepeatedAlertDecorator;
-import com.alerts.IAlert;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 

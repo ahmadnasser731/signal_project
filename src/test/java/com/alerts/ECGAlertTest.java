@@ -1,4 +1,4 @@
-package alerts;
+package com.alerts;
 
 import com.alerts.Alert;
 import com.alerts.ECGAlert;

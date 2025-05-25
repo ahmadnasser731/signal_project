@@ -1,4 +1,4 @@
-package alerts;
+package com.alerts;
 
 import com.alerts.AlertGenerator;
 import com.data_management.DataStorage;

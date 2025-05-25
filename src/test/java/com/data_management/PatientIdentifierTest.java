@@ -1,4 +1,4 @@
-package data_management;
+package com.data_management;
 
 import com.data_management.HospitalPatient;
 import com.data_management.PatientIdentifier;
